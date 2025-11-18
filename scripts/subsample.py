@@ -8,8 +8,6 @@ from pathlib import Path
 import rpy2.robjects as ro
 from rpy2.robjects import pandas2ri
 
-os.chdir("/well/ocallaghan/users/nem384/software/pyflow_seurat_parameter_adapted")
-
 log = open(snakemake.log[0], "w")
 sys.stdout = log
 sys.stderr = log
