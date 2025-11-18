@@ -2,8 +2,6 @@ import sys, os
 import scanpy as sc
 import tempfile
 
-os.chdir("/well/ocallaghan/users/nem384/software/pyflow_seurat_parameter")
-
 log = open(snakemake.log[0], "w")
 sys.stdout = log
 sys.stderr = log
