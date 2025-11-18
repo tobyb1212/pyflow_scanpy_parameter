@@ -1,19 +1,24 @@
+.libPaths(c("/well/ocallaghan/users/nem384/R/4.3/skylake", .libPaths()))
 library(tidyverse)
-library(Seurat)
+library(Seurat, lib.loc = "/well/ocallaghan/users/nem384/R/4.3/skylake")
+library(Seurat, lib.loc = "/well/ocallaghan/users/nem384/R/4.3/skylake/seurat_v5.3.0")
+Sys.setenv(RETICULATE_PYTHON = "/gpfs3/well/ocallaghan/users/nem384/conda/skylake/envs/r-reticulate/bin/python")
+library(reticulate)
+library(schard)
+library(anndata)
 
 log <- file(snakemake@log[[1]], open="wt")
 sink(log)
 sink(log, type="message")
 
-
 rdss<- snakemake@input[["rds"]]
 
 get_idents<- function(rds){
-        x<- readRDS(rds)
-        k<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).rds", "\\1", basename(rds))
-        resolution<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).rds", "\\2", basename(rds))
-        pc.use<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).rds", "\\3", basename(rds))
-        df<- tibble::tibble(pc = pc.use, resolution = resolution, k_param = k, original_ident_full = list(Idents(x)))
+        x<- schard::h5ad2seurat(rds)
+        k<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).h5ad", "\\1", basename(rds))
+        resolution<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).h5ad", "\\2", basename(rds))
+        pc.use<- gsub("full_sample_k_([0-9]+)_resolution_([0-9\\.]+)_PC_([0-9]+).h5ad", "\\3", basename(rds))
+        df<- tibble::tibble(pc = pc.use, resolution = resolution, k_param = k, original_ident_full = list(x$leiden))
         return(df)
 }
 
