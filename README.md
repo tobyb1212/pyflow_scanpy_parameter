@@ -40,10 +40,27 @@ python
 
 ```
 
-Users are required to use an R-reticulate environment to enable python
+Users are required to use an R-reticulate environment to enable python packages to be called from R. This envionment must contain the necessary packages and the environment location should be referenced in scripts/gather_fullsample.R.
 
 ```
-snakemake --use-singularity
+R
+> if (!requireNamespace("reticulate", quietly = TRUE)) {
+  install.packages("reticulate")
+}
+
+> library(reticulate)
+
+# create a new Python environment named "r-reticulate"
+> reticulate::virtualenv_create("r-reticulate")
+
+# install Python packages inside that environment
+> reticulate::virtualenv_install("r-reticulate", 
+  packages = c("scanpy", "numpy", "pandas", "rpy2")
+)
+
+# use this environment in R
+> reticulate::use_virtualenv("r-reticulate", required = TRUE)
+
 ```
 
 copy your .h5ad object into the `pyflow_scanpy_parameter` folder and 
@@ -114,3 +131,5 @@ ParameterSetScatterPlot(stable_clusters = stable_clusters,
 ggsave(plot = last_plot(), filename = "cells_in_cluster_scatter.jpeg", dpi = 300, width = 10, height = 10)
 
 ```
+If there are any questions regarding the updated scanpy adaptation of this workflow, please contact the author of this adapted package. 
+
