@@ -1,4 +1,3 @@
-.libPaths(c("/well/ocallaghan/users/nem384/R/4.3/skylake", .libPaths()))
 library(tidyverse)
 
 log <- file(snakemake@log[[1]], open="wt")
