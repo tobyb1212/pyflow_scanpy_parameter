@@ -48,7 +48,7 @@ snakemake --use-singularity
 
 copy your .h5ad object into the `pyflow_scanpy_parameter` folder and 
 
-open the `config.ymal` file to edit some configurations.
+open the `config.yaml` file to edit some configurations.
 
 
 
