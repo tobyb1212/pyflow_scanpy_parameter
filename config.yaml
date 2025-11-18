@@ -5,7 +5,7 @@
 ############     Bootstrap related parameters        #################
 
 ######################################################################
-input_seurat: "seurat_obj.rds"
+input_seurat: "scanpy_obj.h5ad"
 subsample_rate: 0.8
 num_of_subsample: 20
 
